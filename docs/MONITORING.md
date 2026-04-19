@@ -1,5 +1,10 @@
 # Plano de Monitoramento — Churn Prediction
 
+Esse é o plano de monitoramento que esbocei pro modelo. Confesso que nunca
+coloquei um modelo de verdade em produção ainda, então muita coisa aqui é
+baseada em leitura e no que aprendi nas aulas — fui descrevendo o que *faria*
+se tivesse que monitorar esse serviço de verdade.
+
 ## 1. Métricas de Modelo
 | Métrica | Baseline | Alerta | Ação |
 |---------|----------|--------|------|
@@ -8,6 +13,11 @@
 | Recall (threshold 0.3) | 0.743 | < 0.65 | Revisar threshold |
 | Latência /predict | < 200ms | > 500ms | Investigar infraestrutura |
 
+Os limiares de alerta eu escolhi meio no chute informado: peguei o baseline e
+coloquei uma margem que me pareceu razoável pra diferenciar ruído estatístico
+de queda real. Acredito que na prática esses números precisariam ser calibrados
+observando a variância natural da métrica por algumas semanas.
+
 ## 2. Métricas de Dados (Data Drift)
 | Feature | Monitorar | Método |
 |---------|-----------|--------|
@@ -15,6 +25,10 @@
 | MonthlyCharges | Média e desvio | Z-score |
 | Contract | Proporção categorias | Chi-squared test |
 | Churn rate | Proporção target | Comparar com treino (26.5%) |
+
+Escolhi essas quatro porque foram as que mais apareceram nas análises de
+importância (olhando coeficientes da logística e o comportamento da MLP).
+Faz sentido priorizar drift justamente onde o modelo é mais sensível.
 
 ## 3. Métricas de Infraestrutura
 - **Disponibilidade:** uptime > 99%
@@ -30,6 +44,10 @@
 | Métricas do modelo (AUC, F1) | Semanal |
 | Data drift nas features | Mensal |
 | Re-treino completo | Mensal ou quando alertar |
+
+Optei por semanal para métricas de modelo (e não diário) porque em volumes
+pequenos a variância dia-a-dia atrapalha mais do que ajuda. Monitoramento muito
+barulhento gera fadiga de alerta — algo que li bastante sobre e quero evitar.
 
 ## 5. Playbook de Resposta
 
@@ -52,8 +70,13 @@
 3. Se descalibrado: ajustar threshold ou re-treinar
 4. Documentar no MLflow
 
+Percebi escrevendo esse playbook que a parte mais difícil na prática
+provavelmente é o passo "comparar com churn real" — o ground truth só chega
+depois que o cliente cancela (ou não cancela), então existe um delay natural
+que complica o feedback loop. Fica a observação.
+
 ## 6. Arquitetura de Deploy
 - **Escolha:** Real-time (API REST)
-- **Justificativa:** O negócio precisa de predições imediatas para ações de retenção no momento do contato com o cliente (call center, chat). Batch seria adequado para campanhas de marketing, mas real-time atende ambos os cenários.
+- **Justificativa:** O negócio precisa de predições imediatas para ações de retenção no momento do contato com o cliente (call center, chat). Batch até serviria para campanhas de marketing, mas real-time atende os dois cenários. Optei por esse caminho pensando também que é mais interessante pro aprendizado do que só gerar um CSV.
 - **Stack:** FastAPI + Uvicorn
 - **Modelo:** Carregado em memória no startup da API
