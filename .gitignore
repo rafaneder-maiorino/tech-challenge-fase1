@@ -1,0 +1,29 @@
+# Dados
+data/
+*.csv
+
+# Modelos
+models/*.pt
+models/*.pkl
+models/*.joblib
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
