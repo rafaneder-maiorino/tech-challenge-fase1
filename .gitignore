@@ -1,11 +1,13 @@
 # Dados
-data/
+data/*
+!data/.gitkeep
 *.csv
 
 # Modelos
 models/*.pt
 models/*.pkl
 models/*.joblib
+!models/.gitkeep
 
 # Python
 __pycache__/
