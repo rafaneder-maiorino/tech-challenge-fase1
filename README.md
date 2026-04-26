@@ -108,6 +108,28 @@ clientes em risco de churn.
 
 Telco Customer Churn (IBM) — 7.043 clientes, 21 features, classificação binária.
 
+O dataset não está versionado no repositório. Para baixar:
+
+1. Acesse https://www.kaggle.com/datasets/blastchar/telco-customer-churn
+2. Baixe o arquivo `WA_Fn-UseC_-Telco-Customer-Churn.csv`
+3. Renomeie para `telco_churn.csv` e coloque em `data/`
+
+No final, o caminho deve ficar `data/telco_churn.csv` — é assim que os
+notebooks e scripts esperam encontrar o arquivo.
+
+## MLflow
+
+Os experimentos do MLflow são gerados ao rodar os notebooks `02_baselines.ipynb`
+e `03_mlp_pytorch.ipynb` — cada execução registra métricas, parâmetros e
+artefatos na pasta `mlruns/` (criada automaticamente).
+
+Para visualizar a UI:
+
+    mlflow ui
+
+E abra http://localhost:5000 no navegador. Lá dá pra comparar as runs lado a
+lado, ver os hiperparâmetros e baixar os modelos salvos.
+
 ## Documentação
 
 - [ML Canvas](docs/ML_CANVAS.md) — Definição do problema
