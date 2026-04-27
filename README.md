@@ -130,6 +130,17 @@ Para visualizar a UI:
 E abra http://localhost:5000 no navegador. Lá dá pra comparar as runs lado a
 lado, ver os hiperparâmetros e baixar os modelos salvos.
 
+## Deploy em Nuvem
+
+A API está hospedada no **Azure App Service** e disponível publicamente em:
+
+    https://churn-api-rafael.azurewebsites.net
+
+Endpoints disponíveis:
+
+- `GET /health` — https://churn-api-rafael.azurewebsites.net/health
+- `GET /docs` — https://churn-api-rafael.azurewebsites.net/docs (Swagger UI)
+
 ## Documentação
 
 - [ML Canvas](docs/ML_CANVAS.md) — Definição do problema
