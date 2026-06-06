@@ -51,10 +51,20 @@ clientes em risco de churn.
 
 ## Setup
 
+**Mac/Linux:**
+
     git clone https://github.com/rafaneder-maiorino/tech-challenge-fase1.git
     cd tech-challenge-fase1
     python3 -m venv venv
     source venv/bin/activate
+    pip install -e ".[dev]"
+
+**Windows:**
+
+    git clone https://github.com/rafaneder-maiorino/tech-challenge-fase1.git
+    cd tech-challenge-fase1
+    python -m venv venv
+    venv\Scripts\activate
     pip install -e ".[dev]"
 
 ## Comandos
@@ -63,6 +73,13 @@ clientes em risco de churn.
     make test       # Rodar testes
     make lint       # Verificar código com ruff
     make run        # Iniciar API
+
+**Windows (sem make):**
+
+    pip install -e ".[dev]"
+    python -m pytest tests/ -v
+    ruff check .
+    uvicorn src.api.main:app --reload
 
 ## API
 
