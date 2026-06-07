@@ -1,13 +1,10 @@
-# Dados
-data/*
-!data/.gitkeep
-*.csv
+# Dados (manter CSV do projeto no repo)
+!data/telco_churn.csv
 
-# Modelos
-models/*.pt
+# Modelos (manter modelo treinado no repo)
+!models/mlp_churn.pt
 models/*.pkl
 models/*.joblib
-!models/.gitkeep
 
 # Python
 __pycache__/
